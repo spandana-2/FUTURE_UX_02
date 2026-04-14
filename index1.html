@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Urban Bean | Internship Task 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .app-container { width: 375px; height: 700px; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-stone-100 flex items-center justify-center min-h-screen">
+
+    <div class="app-container bg-white rounded-[40px] shadow-2xl border-[8px] border-stone-900 overflow-hidden relative">
+        
+        <div id="screen-onboarding" class="h-full flex flex-col p-8 justify-end bg-cover bg-center text-white active-screen" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80')">
+            <h1 class="text-4xl font-bold mb-2">The Urban Bean</h1>
+            <p class="text-stone-300 mb-8 font-medium">Find your perfect corner for coffee and productivity.</p>
+            <button onclick="nav('screen-service')" class="w-full bg-orange-600 hover:bg-orange-700 py-4 rounded-2xl font-bold transition-all active:scale-95 shadow-lg">
+                Book a Spot
+            </button>
+            <p class="text-center mt-4 text-xs text-stone-400">Manage Bookings • Login</p>
+        </div>
+
+        <div id="screen-service" class="hidden h-full flex flex-col bg-stone-50 p-6 fade-in">
+            <div class="flex items-center mb-6">
+                <button onclick="nav('screen-onboarding')" class="p-2 bg-white rounded-full shadow-sm">←</button>
+                <h2 class="ml-4 font-bold text-lg text-stone-800">Choose your Zone</h2>
+            </div>
+            <div class="space-y-4 overflow-y-auto pb-20">
+                <div onclick="select('Quiet Work Zone')" class="p-4 bg-white border border-stone-200 rounded-2xl cursor-pointer hover:border-orange-500 transition-all shadow-sm">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-bold text-stone-800 text-md">Quiet Work Zone</span>
+                        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">FAST WIFI</span>
+                    </div>
+                    <p class="text-xs text-stone-500">Ergonomic chairs and power outlets at every desk.</p>
+                </div>
+                <div onclick="select('Window Booth')" class="p-4 bg-white border border-stone-200 rounded-2xl cursor-pointer hover:border-orange-500 transition-all shadow-sm">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-bold text-stone-800 text-md">Window Booth</span>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">NATURAL LIGHT</span>
+                    </div>
+                    <p class="text-xs text-stone-500">Cozy seating with a view. Great for casual meetings.</p>
+                </div>
+                <div onclick="select('Group Meeting Room')" class="p-4 bg-white border border-stone-200 rounded-2xl cursor-pointer hover:border-orange-500 transition-all shadow-sm">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-bold text-stone-800 text-md">Group Meeting Room</span>
+                        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">4-6 PEOPLE</span>
+                    </div>
+                    <p class="text-xs text-stone-500">Private space with a whiteboard and screen.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-time" class="hidden h-full flex flex-col bg-white p-6 fade-in">
+            <div class="flex items-center mb-6">
+                <button onclick="nav('screen-service')" class="p-2 bg-stone-100 rounded-full">←</button>
+                <h2 class="ml-4 font-bold text-lg text-stone-800">Select Time Slot</h2>
+            </div>
+            <p class="text-xs font-bold text-stone-400 mb-4 tracking-widest uppercase">TODAY, APRIL 14</p>
+            <div class="grid grid-cols-2 gap-3 mb-8">
+                <button onclick="confirm('09:00 AM')" class="py-4 border border-stone-100 bg-stone-50 rounded-2xl font-semibold hover:bg-stone-900 hover:text-white transition-all active:scale-95">09:00 AM</button>
+                <button onclick="confirm('11:30 AM')" class="py-4 border border-stone-100 bg-stone-50 rounded-2xl font-semibold hover:bg-stone-900 hover:text-white transition-all active:scale-95">11:30 AM</button>
+                <button onclick="confirm('02:00 PM')" class="py-4 border border-stone-100 bg-stone-50 rounded-2xl font-semibold hover:bg-stone-900 hover:text-white transition-all active:scale-95">02:00 PM</button>
+                <button onclick="confirm('04:30 PM')" class="py-4 border border-stone-100 bg-stone-50 rounded-2xl font-semibold hover:bg-stone-900 hover:text-white transition-all active:scale-95">04:30 PM</button>
+            </div>
+            <div class="mt-auto p-4 bg-orange-50 border border-orange-100 rounded-2xl">
+                <p class="text-[10px] text-orange-400 font-bold uppercase tracking-wider">Selected Zone</p>
+                <p id="selected-service-display" class="font-bold text-stone-800 italic"></p>
+            </div>
+        </div>
+
+        <div id="screen-confirmation" class="hidden h-full flex flex-col items-center justify-center p-8 bg-white fade-in">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-stone-800 mb-2">Spot Confirmed!</h2>
+            <p class="text-center text-stone-500 text-sm mb-8">We've saved a <span id="final-service" class="font-bold"></span> for you today at <span id="final-time" class="font-bold"></span>.</p>
+            
+            <div class="w-full bg-stone-900 text-white rounded-3xl p-6 mb-8 shadow-xl">
+                <div class="flex justify-between border-b border-stone-700 pb-3 mb-3">
+                    <span class="text-stone-400 text-xs uppercase font-bold">Location</span>
+                    <span class="text-xs">The Urban Bean, MG Road</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-stone-400 text-xs uppercase font-bold">Booking ID</span>
+                    <span class="text-xs font-mono">#UB-4429</span>
+                </div>
+            </div>
+
+            <button onclick="nav('screen-onboarding')" class="w-full border-2 border-stone-100 py-4 rounded-2xl font-bold text-stone-500 hover:bg-stone-50">Done</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentService = "";
+        
+        function nav(id) {
+            document.querySelectorAll('.app-container > div').forEach(d => d.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function select(service) {
+            currentService = service;
+            document.getElementById('selected-service-display').innerText = service;
+            nav('screen-time');
+        }
+
+        function confirm(time) {
+            document.getElementById('final-service').innerText = currentService;
+            document.getElementById('final-time').innerText = time;
+            nav('screen-confirmation');
+        }
+    </script>
+</body>
+</html>
